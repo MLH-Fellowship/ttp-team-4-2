@@ -21,6 +21,7 @@ constructor(props){
     answer: randomWords(),
     answerGotSoFar: [],
     answerLeftOver: [],
+    guessedAlready: [],
     copy: [],
     input: "",
   }
@@ -86,6 +87,11 @@ calculate=(e)=>{
                             //Check if input is a word or a letter
                             if(this.state.input.length ==  1)
                             {
+
+                              // Check if user guessed already
+                              if(!this.state.guessedAlready.includes(this.state.input))
+                              this.setState({guessedAlready: [...this.state.guessedAlready, this.state.input]})
+
                                   //Gets it wrong
                                 if(!this.state.answerLeftOver.includes(this.state.input))
                                     this.setState({currentWrong: this.state.currentWrong + 1})
@@ -160,23 +166,6 @@ NewGame = (e) =>
 }
 
 
-// newWord = (e) =>{
-//   e.preventDefault();
-//   this.setState(this.resetState)
-//   this.setState({answer: randomWords()})
-//   this.setState({answerLeftOver :[...this.state.answer]})
-//   this.setState({copy :[...this.state.answer]})
-
-//   let i;
-//   let temp = []
-//   for( i = 0; i < this.state.answer.length ; i++)
-//   {
-//     temp.push('_')
-//   }
-//   this.setState({answerGotSoFar: temp})
-// }
-
-
 
 updateInput = (e) =>{
 
@@ -186,6 +175,7 @@ updateInput = (e) =>{
 
   render() {
       console.log("Need :" + this.state.answerLeftOver)
+      console.log("Already picked" + this.state.guessedAlready)
     
       let status
       let status2 =""
@@ -218,6 +208,9 @@ updateInput = (e) =>{
         <br></br>
         <h4 style={{fontWeight: 'bold'}}>{status2}</h4>
         <h1>{display}</h1>
+        Letters Used :{this.state.guessedAlready}
+        <br></br>
+        <br></br>
         <form>
         <label>
           <input type="text" className="inputField" maxLength={1} value={this.state.input} onChange={this.updateInput} />
