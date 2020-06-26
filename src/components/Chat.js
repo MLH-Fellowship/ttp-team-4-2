@@ -63,7 +63,7 @@ const Chat = () => {
     const renderChat = () => {
         return messages.map(({ player, text }, index) => (
           <div key={index}>
-            <h3>{player}: <span>{text}</span></h3>
+            <h3 className="chatPlayer">{player}: <span className="chatMsg">{text}</span></h3>
           </div>
         ))
     }

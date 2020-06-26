@@ -5,6 +5,9 @@
     margin-top: 0px;
     text-align: center;
     padding-top: 10px;
+    position: fixed;
+    margin-left: 50vw;
+    top: 0vh;
 }
 
 .inputField{
