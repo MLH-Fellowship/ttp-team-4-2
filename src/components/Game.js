@@ -180,8 +180,10 @@ updateInput = (e) =>{
       let status
       let status2 =""
 
-       if(this.state.answerLeftOver == 0)
-       status2 = ("Winner!!!")
+       if(this.state.answerLeftOver == 0){
+        status = (<img src={this.state.image} alt="Pic"/>)
+        status2 = ("Winner!!!")
+       }
      else 
      {
         status = (<img src={this.state.image} alt="Pic"/>)
@@ -208,9 +210,9 @@ updateInput = (e) =>{
         <br></br>
         <h4 style={{fontWeight: 'bold'}}>{status2}</h4>
         <h1>{display}</h1>
-        Letters Used :{this.state.guessedAlready}
-        <br></br>
-        <br></br>
+        <h4>{this.state.guessedAlready}</h4>
+        {/* <br></br> */}
+        {/* <br></br> */}
         <form>
         <label>
           <input type="text" className="inputField" maxLength={1} value={this.state.input} onChange={this.updateInput} />
