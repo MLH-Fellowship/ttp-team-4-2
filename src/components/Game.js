@@ -181,7 +181,7 @@ updateInput = (e) =>{
       let status2 =""
 
        if(this.state.answerLeftOver == 0)
-       status = ("Winner!!!")
+       status2 = ("Winner!!!")
      else 
      {
         status = (<img src={this.state.image} alt="Pic"/>)
