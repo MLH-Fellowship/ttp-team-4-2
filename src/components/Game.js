@@ -80,12 +80,13 @@ calculate=(e)=>{
 
 
                   //Wins
-
                   if( this.state.previousAnswer == '' && this.state.input.length > 1)
                   {
                     if(this.state.input == this.state.answer)
                         return this.setState({answerLeftOver : [],
                                                 answerGotSoFar: [...this.state.answer]})
+                    else
+                          this.setState({currentWrong: this.state.currentWrong + 1 })
                        }
                   
                       else{
