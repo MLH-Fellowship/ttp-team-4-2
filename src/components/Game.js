@@ -88,13 +88,13 @@ calculate=(e)=>{
                         return this.setState({answerLeftOver : [],
                                                 answerGotSoFar: [...this.state.answer]})
                         }
-                          else
-                          {
-                             console.log(" case 2 " )
+                        else
+                            {
+                            console.log("case 2")
                             this.setState({currentWrong: this.state.currentWrong + 1 })
                             this.reRender();
-                          }
-                         
+                            }
+                          
                        }
                   
                       else{
