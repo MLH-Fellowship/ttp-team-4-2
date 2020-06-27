@@ -152,34 +152,61 @@ calculate=(e)=>{
 NewGame = (e) =>
 {
 
-  e.preventDefault();
-  console.log("wrong" + this.state.currentWrong)
-  this.setState(this.resetState)
-  this.setState({answer: randomWords()})
-  console.log("BEFORE NEW GAME " + this.state.answer)
-  this.setState({answerLeftOver :[...this.state.answer]})
-  this.setState({copy :[...this.state.answer]})
+  console.log("----------------- NEW GAME -------------")
 
-  let i;
-  let temp = []
-  for( i = 0; i < this.state.answer.length ; i++)
-  {
-    temp.push('_')
-  }
-  this.setState({answerGotSoFar: temp,
-              previousAnswer: this.state.answer })
-          console.log("After NEW GAME " + this.state.answer)
+  if(this.state.answer != '' )
+        {
+            e.preventDefault();
+            this.setState(this.resetState)
+            this.setState({answer: randomWords()})
+            
+            this.setState({answerLeftOver :[...this.state.answer]})
+            this.setState({copy :[...this.state.answer]})
+
+            let i;
+            let temp = []
+            for( i = 0; i < this.state.answer.length ; i++)
+            {
+              temp.push('_')
+            }
+            this.setState({answerGotSoFar: temp})
+            this.setState({previousAnswer: this.state.answer})
+
+            console.log("New 1")
+      }
+
+    else{
+          e.preventDefault();
+          this.setState(this.resetState)
+          // this.setState({answer: randomWords()})
+          
+          this.setState({answerLeftOver :[...this.state.previousAnswer]})
+          this.setState({copy :[...this.state.previousAnswer]})
+
+          let i;
+          let temp = []
+          for( i = 0; i < this.state.previousAnswer.length ; i++)
+            {
+              temp.push('_')
+            }
+          this.setState({answerGotSoFar: temp})
+          this.setState({previousAnswer: this.state.previousAnswer})
+          console.log("New 2")
+        }
+
+
+
 }
 
 reset = (e) =>{
 
   e.preventDefault();
-  console.log("############################")
+  console.log("############# RESET ###############")
 
   if(this.state.previousAnswer != '' )
   {
         this.setState(this.resetState)
-        console.log("PREVIOUS " + this.state.previousAnswer)
+        console.log("PREVIOUS1 " + this.state.previousAnswer)
         this.setState({answer: this.state.previousAnswer})
         this.setState({answerLeftOver :[...this.state.previousAnswer]})
         this.setState({copy :[...this.state.previousAnswer]})
@@ -195,8 +222,9 @@ reset = (e) =>{
   }
 
   else{
+   
         this.setState(this.resetState)
-        console.log("PREVIOUS " + this.state.previousAnswer)
+        console.log("PREVIOUS2 " + this.state.previousAnswer)
         this.setState({answer: this.state.previousAnswer})
         this.setState({answerLeftOver :[...this.state.answer]})
         this.setState({copy :[...this.state.answer]})
