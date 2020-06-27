@@ -24,6 +24,7 @@ constructor(props){
     guessedAlready: [],
     copy: [],
     input: "",
+    previousAnswer: ""
   }
   this.resetState = this.state;
 
@@ -79,10 +80,31 @@ calculate=(e)=>{
 
 
                   //Wins
-                  if(this.state.input == this.state.answer)
-                       return this.setState({answerLeftOver : 0,
-                                              answerGotSoFar: [...this.state.answer]})
+                  if( this.state.previousAnswer == '' && this.state.input.length > 1)
+                  {
+                    if(this.state.input == this.state.answer)
+                    {
+                        console.log("case 1")
+                        return this.setState({answerLeftOver : [],
+                                                answerGotSoFar: [...this.state.answer]})
+                        }
+                        else
+                            {
+                            console.log("case 2")
+                            this.setState({currentWrong: this.state.currentWrong + 1 })
+                            this.reRender();
+                            }
+                          
+                       }
+                  
                       else{
+                          console.log("case 3")
+                        if(this.state.input == this.state.previousAnswer && this.state.input != '')
+                        {
+                          console.log("Returning")
+                           return this.setState({answerLeftOver : [],
+                                                answerGotSoFar: [...this.state.previousAnswer]})
+                           }
                            
                             //Check if input is a word or a letter
                             if(this.state.input.length ==  1)
@@ -99,7 +121,7 @@ calculate=(e)=>{
                                 else
                                 {
                                   let i ;
-                                     console.log("before need:" + this.state.answerLeftOver)
+                               
         
                                     for(i = 0; i < this.state.answerLeftOver.length; i++)
                                     {
@@ -123,7 +145,7 @@ calculate=(e)=>{
                                           //modify answerGotSoFar
                                           let copyOver = this.state.answerGotSoFar.slice()
                                           copyOver[position] = this.state.input
-                                          console.log(copyOver + "COPY")
+                                          console.log(copyOver + " COPY")
                                           this.setState({answerGotSoFar: copyOver})
                                           
                                           this.state.answerLeftOver.splice(i, 1)
@@ -132,16 +154,16 @@ calculate=(e)=>{
                                     }
                                       console.log(this.state.input + " is correct")
                               
-                                    console.log("after need :" + this.state.answerLeftOver)
+                                  
                                 }
                                 }
                             //Gets it wrong
                               else
                                   this.setState({currentWrong: this.state.currentWrong + 1})
 
-                              //Executes everytime no matter what
+                              
                                 this.reRender();
-                                this.setState({turn : !this.state.turn, input: ''})
+                                this.setState({input: ''})
                                
                       }
                     
@@ -151,18 +173,94 @@ calculate=(e)=>{
 NewGame = (e) =>
 {
   e.preventDefault();
-  this.setState(this.resetState)
-  this.setState({answer: randomWords()})
-  this.setState({answerLeftOver :[...this.state.answer]})
-  this.setState({copy :[...this.state.answer]})
+  console.log("----------------- NEW GAME -------------")
 
-  let i;
-  let temp = []
-  for( i = 0; i < this.state.answer.length ; i++)
+  if(this.state.answer != '' )
+        {
+            
+            this.setState(this.resetState)
+            this.setState({answer: randomWords()})
+            
+            this.setState({answerLeftOver :[...this.state.answer]})
+            this.setState({copy :[...this.state.answer]})
+
+            let i;
+            let temp = []
+            for( i = 0; i < this.state.answer.length ; i++)
+            {
+              temp.push('_')
+            }
+            this.setState({answerGotSoFar: temp})
+            this.setState({previousAnswer: this.state.answer})
+
+            console.log("New 1")
+      }
+
+    else{
+         
+          this.setState(this.resetState)
+          // this.setState({answer: randomWords()})
+          
+          this.setState({answerLeftOver :[...this.state.previousAnswer]})
+          this.setState({copy :[...this.state.previousAnswer]})
+
+          let i;
+          let temp = []
+          for( i = 0; i < this.state.previousAnswer.length ; i++)
+            {
+              temp.push('_')
+            }
+          this.setState({answerGotSoFar: temp})
+          this.setState({previousAnswer: this.state.previousAnswer})
+          console.log("New 2")
+        }
+
+
+
+}
+
+reset = (e) =>{
+
+  e.preventDefault();
+  console.log("############# RESET ###############")
+
+  if(this.state.previousAnswer != '' )
   {
-    temp.push('_')
+        this.setState(this.resetState)
+        console.log("PREVIOUS1 " + this.state.previousAnswer)
+        this.setState({answer: this.state.previousAnswer})
+        this.setState({answerLeftOver :[...this.state.previousAnswer]})
+        this.setState({copy :[...this.state.previousAnswer]})
+
+              let i;
+              let temp = []
+              for( i = 0; i < this.state.previousAnswer.length ; i++)
+              {
+                temp.push('_')
+              }
+              this.setState({answerGotSoFar: temp})
+                                          
   }
-  this.setState({answerGotSoFar: temp})
+
+  else{
+   
+        this.setState(this.resetState)
+        console.log("PREVIOUS2 " + this.state.previousAnswer)
+        this.setState({answer: this.state.previousAnswer})
+        this.setState({answerLeftOver :[...this.state.answer]})
+        this.setState({copy :[...this.state.answer]})
+      
+        let i;
+        let temp = []
+        for( i = 0; i < this.state.answer.length ; i++)
+        {
+          temp.push('_')
+        }
+        this.setState({answerGotSoFar: temp})
+        this.setState({previousAnswer: this.state.answer})
+  }
+
+
 }
 
 
@@ -175,17 +273,17 @@ updateInput = (e) =>{
 
   render() {
       console.log("Need :" + this.state.answerLeftOver)
-      console.log("Already picked" + this.state.guessedAlready)
     
       let status
       let status2 =""
 
-       if(this.state.answerLeftOver == 0){
+       if(this.state.answerLeftOver.length == 0){
         status = (<img src={this.state.image} alt="Pic"/>)
         status2 = ("Winner!!!")
        }
      else 
      {
+      
         status = (<img src={this.state.image} alt="Pic"/>)
         
         if(this.state.currentWrong >= this.state.wrong + 1)
@@ -211,31 +309,17 @@ updateInput = (e) =>{
         <h4 style={{fontWeight: 'bold'}}>{status2}</h4>
         <h1>{display}</h1>
         <h4>{this.state.guessedAlready}</h4>
-        {/* <br></br> */}
-        {/* <br></br> */}
+
         <form>
         <label>
-          <input type="text" className="inputField" maxLength={1} value={this.state.input} onChange={this.updateInput} />
+          <input type="text"   value={this.state.input} onChange={this.updateInput} />
         </label><br></br>
         <input class="btn btn-outline-dark"onClick={this.calculate} type="submit" value="Submit" />
           </form>
           <button type="button" class="btn btn-outline-danger" onClick={this.NewGame}>New Game</button>
-          {/* <button type="button" class="btn btn-outline-danger" onClick={this.newWord}>New Word</button> */}
-          
-          
-      
-        {/* {this.state.answerGotSoFar.map((x) =>(
-          <div>
-            <h1>{x}</h1>
-            </div>
-        ))} */}
-        {/* <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <h1>{display}</h1> */}
-      
-          
+          <button type="button" class="btn btn-outline-danger" onClick={this.reset}>reset</button>
+
+                    
       </div>
     );
   }
