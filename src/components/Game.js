@@ -83,14 +83,22 @@ calculate=(e)=>{
                   if( this.state.previousAnswer == '' && this.state.input.length > 1)
                   {
                     if(this.state.input == this.state.answer)
+                    {
+                        console.log("case 1")
                         return this.setState({answerLeftOver : [],
                                                 answerGotSoFar: [...this.state.answer]})
-                    else
-                          this.setState({currentWrong: this.state.currentWrong + 1 })
+                        }
+                          else
+                          {
+                             console.log(" case 2 " )
+                            this.setState({currentWrong: this.state.currentWrong + 1 })
+                            this.reRender();
+                          }
+                         
                        }
                   
                       else{
-
+                          console.log("case 3")
                         if(this.state.input == this.state.previousAnswer && this.state.input != '')
                         {
                           console.log("Returning")
@@ -153,7 +161,7 @@ calculate=(e)=>{
                               else
                                   this.setState({currentWrong: this.state.currentWrong + 1})
 
-                              //Executes everytime no matter what
+                              
                                 this.reRender();
                                 this.setState({input: ''})
                                
