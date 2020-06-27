@@ -80,10 +80,22 @@ calculate=(e)=>{
 
 
                   //Wins
-                  if(this.state.input == this.state.answer)
-                       return this.setState({answerLeftOver : 0,
-                                              answerGotSoFar: [...this.state.answer]})
+
+                  if( this.state.previousAnswer == '' && this.state.input.length > 1)
+                  {
+                    if(this.state.input == this.state.answer)
+                        return this.setState({answerLeftOver : [],
+                                                answerGotSoFar: [...this.state.answer]})
+                       }
+                  
                       else{
+
+                        if(this.state.input == this.state.previousAnswer && this.state.input != '')
+                        {
+                          console.log("Returning")
+                           return this.setState({answerLeftOver : [],
+                                                answerGotSoFar: [...this.state.previousAnswer]})
+                           }
                            
                             //Check if input is a word or a letter
                             if(this.state.input.length ==  1)
@@ -151,12 +163,12 @@ calculate=(e)=>{
 
 NewGame = (e) =>
 {
-
+  e.preventDefault();
   console.log("----------------- NEW GAME -------------")
 
   if(this.state.answer != '' )
         {
-            e.preventDefault();
+            
             this.setState(this.resetState)
             this.setState({answer: randomWords()})
             
@@ -176,7 +188,7 @@ NewGame = (e) =>
       }
 
     else{
-          e.preventDefault();
+         
           this.setState(this.resetState)
           // this.setState({answer: randomWords()})
           
@@ -256,12 +268,13 @@ updateInput = (e) =>{
       let status
       let status2 =""
 
-       if(this.state.answerLeftOver == 0){
+       if(this.state.answerLeftOver.length == 0){
         status = (<img src={this.state.image} alt="Pic"/>)
         status2 = ("Winner!!!")
        }
      else 
      {
+      
         status = (<img src={this.state.image} alt="Pic"/>)
         
         if(this.state.currentWrong >= this.state.wrong + 1)
@@ -290,7 +303,7 @@ updateInput = (e) =>{
 
         <form>
         <label>
-          <input type="text" className="inputField" maxLength={1} value={this.state.input} onChange={this.updateInput} />
+          <input type="text"   value={this.state.input} onChange={this.updateInput} />
         </label><br></br>
         <input class="btn btn-outline-dark"onClick={this.calculate} type="submit" value="Submit" />
           </form>
